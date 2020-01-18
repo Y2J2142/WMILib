@@ -42,6 +42,9 @@ extern "C" __declspec ( dllexport ) int32_t __cdecl getMemVoltage(WMIAPI* wmi) {
     return wmi->getMemVoltage();
 }
 
+extern "C" __declspec ( dllexport ) void __cdecl uninitializeWMIAPI(WMIAPI* wmi) {
+    wmi->WmiUninitialize();
+}
 
 
 
