@@ -340,8 +340,7 @@ uint64_t WMIAPI::getTotalCPUUsage() {
 
     auto variant = ExecQuery(L"select LoadPercentage from Win32_Processor", 
                         L"LoadPercentage" );
-
-    return variant.vt == VT_UI8 ? variant.ullVal : 0;
+    return variant.vt == VT_I4 ? variant.intVal : 0;
 
 }
 
