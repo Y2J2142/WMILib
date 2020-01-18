@@ -8,37 +8,37 @@
 #pragma comment(lib, "wbemuuid.lib")
 using namespace std::literals;
 
-extern "C" __declspec( dllexport ) WMIAPI* getWMIAPI() {
-    return new WMIAPI{};
+extern "C" __declspec( dllexport ) WMIAPI* __cdecl getWMIAPI() {
+    return new WMIAPI();
 }
 
-extern "C" __declspec( dllexport ) bool InitializeWMIAPI(WMIAPI* wmi) {
+extern "C" __declspec( dllexport ) bool __cdecl InitializeWMIAPI(WMIAPI* wmi) {
     return wmi->WmiInitialize();
 }
 
-extern "C" __declspec( dllexport ) uint64_t getTotalCPUUsage(WMIAPI* wmi) {
+extern "C" __declspec( dllexport ) uint64_t __cdecl getTotalCPUUsage(WMIAPI* wmi) {
     return wmi->getTotalCPUUsage();
 }
 
-extern "C" __declspec( dllexport ) BSTR  getTotalMemory(WMIAPI* wmi) {
+extern "C" __declspec( dllexport ) BSTR __cdecl  getTotalMemory(WMIAPI* wmi) {
     return SysAllocString(wmi->getTotalMemory().c_str());
 }
-extern "C" __declspec ( dllexport ) BSTR getAvailableMemory(WMIAPI* wmi) {
+extern "C" __declspec ( dllexport ) BSTR __cdecl getAvailableMemory(WMIAPI* wmi) {
     return SysAllocString(wmi->getAvailableMemory().c_str());
 }
 
-extern "C" __declspec ( dllexport ) BSTR getOSName(WMIAPI* wmi) {
+extern "C" __declspec ( dllexport ) BSTR __cdecl getOSName(WMIAPI* wmi) {
     return SysAllocString(wmi->getOSName().c_str());
 }
 
-extern "C" __declspec ( dllexport ) uint32_t getMemClockSpeed(WMIAPI* wmi) {
+extern "C" __declspec ( dllexport ) uint32_t __cdecl getMemClockSpeed(WMIAPI* wmi) {
     return wmi->getMemClockSpeed();
 }
 
-extern "C" __declspec ( dllexport ) int32_t getMemType(WMIAPI* wmi) {
+extern "C" __declspec ( dllexport ) int32_t __cdecl getMemType(WMIAPI* wmi) {
     return wmi->getMemType();
 }
-extern "C" __declspec ( dllexport ) int32_t getMemVoltage(WMIAPI* wmi) {
+extern "C" __declspec ( dllexport ) int32_t __cdecl getMemVoltage(WMIAPI* wmi) {
     return wmi->getMemVoltage();
 }
 
