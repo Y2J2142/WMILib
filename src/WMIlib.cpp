@@ -188,7 +188,8 @@ bool WMIAPI::InitializeCOM() {
         return false;
     }
     auto hres = CoInitializeEx(0, COINIT_MULTITHREADED);
-    if(FAILED(hres)) {
+    //check if COM was initialized by other thread
+    if(FAILED(hres) && hres != RPC_E_CHANGED_MODE) {
         std::cout << "COM initialization failed\t Error: " << std::hex << hres << '\n';
         return false; 
     }
