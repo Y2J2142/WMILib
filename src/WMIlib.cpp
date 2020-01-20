@@ -157,16 +157,20 @@ namespace {
     }
 }
 
+
+
 bool WMIAPI::WmiInitialize() {
 
-    if (!InitializeCOM()) {
-        std::cout << "COM init failed\n";
-        return false;
+
+    const auto res = InitializeCOM();
+    if (res != InitResult::AlreadyStarted)
+    {
+        if (!GenerateCOMSecurity()) {
+            std::cout << "COM security init failed\n";
+            return false;
+        }
     }
-    if (!GenerateCOMSecurity()) {
-        std::cout << "COM security init failed\n";
-        return false;
-    }
+
     if (!LocateWMI()) {
         std::cout << "WMI Locator failed\n";
         return false;
@@ -185,19 +189,20 @@ bool WMIAPI::WmiInitialize() {
 
 }
 
-bool WMIAPI::InitializeCOM() {
+InitResult WMIAPI::InitializeCOM() {
     if (isInitialized) {
-        std::cout << "Already initialized\n";
-        return false;
+        return InitResult::Success;
     }
     auto hres = CoInitializeEx(0, COINIT_MULTITHREADED);
-    //check if COM was initialized by other thread
-    if(FAILED(hres) && hres != RPC_E_CHANGED_MODE) {
-        std::cout << "COM initialization failed\t Error: " << std::hex << hres << '\n';
-        return false; 
-    }
     isInitialized = true;
-    return true;
+    switch(hres) {
+        case S_OK:
+            return InitResult::Success;
+        case S_FALSE:
+            return InitResult::AlreadyStarted;
+        case RPC_E_CHANGED_MODE:
+            return InitResult::ModeChanged;
+    }
 }
 
 void WMIAPI::WmiUninitialize() {

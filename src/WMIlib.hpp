@@ -6,6 +6,13 @@ struct  IWbemLocator;
 #include <string>
 
 
+enum class InitResult {
+    Success = 0,
+    ModeChanged,
+    AlreadyStarted
+
+};
+
 struct WMIAPI {
 
     bool WmiInitialize();
@@ -24,7 +31,7 @@ private:
     IWbemLocator *pLoc = nullptr;
     bool isInitialized = false;
     
-    bool InitializeCOM();
+    InitResult InitializeCOM();
     bool GenerateCOMSecurity();
     bool ConnectToWMI();
     bool LocateWMI();
